@@ -24,6 +24,7 @@
 
 ### Backend
 
+- Installer les dépendances `composer install`
 - Démarrer le serveur `symfony serve`
 - Le serveur a démarré à [http://localhost:8000](http://localhost:8000)
 
