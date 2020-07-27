@@ -34,7 +34,9 @@
   - Authentification possible en jwt
   - Base de données avec des utilisateurs de des données
   - Il y a un utilisateur de test: email: tester@gmail.com passwd: I@mTheT€ster
-  - Il y a déjà une requête qui permet d'authentifier l'utilisateur sur le front et qui fait une requête au back pour récupérer les bénéficiaires du backend
+- Frontend
+  - Il y a déjà une requête qui permet d'authentifier l'utilisateur et qui fait une requête au back pour récupérer les bénéficiaires du backend
+  - L'email et le mot de passe sont hardcodés, c'est pour ça qu'on aimerait avoir un formulaire à la place
 
 ## Missions
 
