@@ -1,33 +1,29 @@
-import React from 'react';
-import request from 'superagent';
+import React, { useEffect, useState } from 'react';
 import names from "../names";
 import Navbar from '../components/navbar';
+import axios from "axios";
+
 
 const apiEndpoint = "https://avatars.dicebear.com/v2/avataaars/";
 const apiOptions = "options[mood][]=happy";
-const backendUrl = "https://localhost:8000";
+const backendUrl = "http://localhost:8000";
 const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries?format=json`;
-const loginEndpoint = `${backendUrl}/authentication_token`;
-
 
 const getAvatar = name => `${apiEndpoint}${name}.svg?${apiOptions}`;
 
 const HomePage = (props) => {
 
-    const [registeredBeneficiaries, setRegisteredBeneficiaries] = React.useState(
+    const token = localStorage.getItem('authToken');
+    const [registeredBeneficiaries, setRegisteredBeneficiaries] = useState(
         []
     );
-    const fetchBeneficiaries = async () => {
-        const loginResponse = await request('POST', loginEndpoint)
-            .send({ email: 'tester@gmail.com', password: 'I@mTheT€ster' });
-        const response = await request('GET', beneficiariesEndpoint)
-            .auth(loginResponse.body.token, { type: 'bearer' });
-        setRegisteredBeneficiaries(response.body['hydra:member']);
-    };
 
-    React.useEffect(() => {
-        fetchBeneficiaries();
-    }, []);
+    useEffect(() => {
+        axios.get(beneficiariesEndpoint, { headers: {"Authorization" : `Bearer ${token}`}})
+             .then(response => response.data['hydra:member'])
+             .then(data => setRegisteredBeneficiaries(data));
+    }, [])
+   
     const beneficiaryNames = [...Array(12).keys()].map(number => ({
         name: names[Math.floor(Math.random() * names.length)]
     }));
