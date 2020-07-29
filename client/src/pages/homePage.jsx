@@ -1,6 +1,7 @@
 import React from 'react';
 import request from 'superagent';
 import names from "../names";
+import Navbar from '../components/navbar';
 
 const apiEndpoint = "https://avatars.dicebear.com/v2/avataaars/";
 const apiOptions = "options[mood][]=happy";
@@ -35,6 +36,7 @@ const HomePage = (props) => {
         <div className="App">
 
             <header className="App-header">
+                <Navbar />
                 <h1>Bienvenue dans le gestionnaire de bénéficaires Reconnect</h1>
                 <hr />
                 <h3>Personnes stockées en base</h3>

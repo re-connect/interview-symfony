@@ -16,7 +16,7 @@ const loginEndpoint = `${backendUrl}/authentication_token`;
 const getAvatar = name => `${apiEndpoint}${name}.svg?${apiOptions}`;
 
 function App() {
-    
+
     return (
         <Fragment>
             <HashRouter>
@@ -25,7 +25,6 @@ function App() {
                     <Route path="/" component={HomePage} />
                 </Switch>
             </HashRouter>
-            
         </Fragment>
     );
 }

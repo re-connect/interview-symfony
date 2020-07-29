@@ -63,3 +63,9 @@ label {
     padding: 6px 24px;
     margin-top: 20px;
 }
+
+.navigation li {
+    display: inline;
+    margin-right: 10px;
+}
+

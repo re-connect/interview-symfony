@@ -57,7 +57,7 @@ const LoginPage = (props) => {
                             />
                         </div>
                         <div>
-                            <button class="button" type="submit">Connexion</button>
+                            <button className="button" type="submit">Connexion</button>
                         </div>
                     </form>
                 </header>
