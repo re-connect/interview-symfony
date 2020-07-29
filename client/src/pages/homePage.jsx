@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import names from "../names";
 import Navbar from '../components/navbar';
 import axios from "axios";
+import { search } from 'superagent';
 
 
 const apiEndpoint = "https://avatars.dicebear.com/v2/avataaars/";
@@ -17,6 +18,9 @@ const HomePage = (props) => {
     const [registeredBeneficiaries, setRegisteredBeneficiaries] = useState(
         []
     );
+    const [result, setResult] = useState(
+        []
+    );
 
     useEffect(() => {
         axios.get(beneficiariesEndpoint, { headers: {"Authorization" : `Bearer ${token}`}})
@@ -28,6 +32,13 @@ const HomePage = (props) => {
         name: names[Math.floor(Math.random() * names.length)]
     }));
 
+    const handleResult = event => {
+        const value = event.currentTarget.value;
+        setResult(value);
+    }
+
+    const filteredBeneficiaries = registeredBeneficiaries.filter(b => b.name.toLowerCase().includes(result));
+
     return (
         <div className="App">
 
@@ -35,9 +46,12 @@ const HomePage = (props) => {
                 <Navbar />
                 <h1>Bienvenue dans le gestionnaire de bénéficaires Reconnect</h1>
                 <hr />
+                <div>
+                    <input type="text" onChange={handleResult} value={result} placeholder="Rechercher"/>
+                </div>
                 <h3>Personnes stockées en base</h3>
                 <div className="Beneficiaries-list">
-                    {registeredBeneficiaries.map((beneficiary) => (
+                    {filteredBeneficiaries.map((beneficiary) => (
                         <div className="Beneficiary-card" key={beneficiary.id}>
                             <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
                             <span>{beneficiary.name}</span>
