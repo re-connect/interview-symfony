@@ -5,6 +5,7 @@ import names from "./names";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import LoginPage from "./pages/loginPage";
 import HomePage from "./pages/homePage";
+import NewBeneficiaryPage from "./pages/newBeneficiaryPage";
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Fragment>
             <HashRouter>
                 <Switch>
+                    <Route path="/beneficiaire" component={NewBeneficiaryPage} />
                     <Route path="/login" component={LoginPage} />
                     <Route path="/" component={HomePage} />
                 </Switch>

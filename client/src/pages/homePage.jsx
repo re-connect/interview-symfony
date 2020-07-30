@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import names from "../names";
 import Navbar from '../components/navbar';
 import axios from "axios";
-import { search } from 'superagent';
-
+import { NavLink } from 'react-router-dom'
 
 const apiEndpoint = "https://avatars.dicebear.com/v2/avataaars/";
 const apiOptions = "options[mood][]=happy";
@@ -59,7 +58,7 @@ const HomePage = (props) => {
                     ))}  
                 </div>
                 <hr />
-                <button className="button" type="submit">Enregistrer un bénéficiaire</button>
+                <NavLink to="/beneficiaire" className="button">Enregistrer un nouveau bénéficiaire</NavLink>
                 <h3>Personnes non stockées</h3>
                 <div className="Beneficiaries-list">
                     {beneficiaryNames.map((beneficiary, index) => (
