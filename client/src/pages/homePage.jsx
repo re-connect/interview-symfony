@@ -56,9 +56,10 @@ const HomePage = (props) => {
                             <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
                             <span>{beneficiary.name}</span>
                         </div>
-                    ))}
+                    ))}  
                 </div>
                 <hr />
+                <button className="button" type="submit">Enregistrer un bénéficiaire</button>
                 <h3>Personnes non stockées</h3>
                 <div className="Beneficiaries-list">
                     {beneficiaryNames.map((beneficiary, index) => (

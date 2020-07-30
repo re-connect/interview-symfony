@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import { Redirect, useHistory } from 'react-router-dom';
 
 const LoginPage = (props) => {
     const [credentials, setCredentials] = useState({
@@ -14,6 +15,8 @@ const LoginPage = (props) => {
         setCredentials({ ...credentials, [name]: value });
     }
 
+    const history = useHistory();
+
     const handleSubmit = async event => {
         event.preventDefault();
 
@@ -24,9 +27,12 @@ const LoginPage = (props) => {
 
             window.localStorage.setItem("authToken", token);
             axios.defaults.headers["authorization"] = "Bearer " + token;
+            history.push("/");
+
         } catch (error) {
             console.log(error.response);
         }
+        return <Redirect to="/" />;
     }
 
     return (
