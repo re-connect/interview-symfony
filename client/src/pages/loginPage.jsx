@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { Redirect, useHistory } from 'react-router-dom';
+import authentication from '../services/authentication';
 
-const LoginPage = (props) => {
+const LoginPage = ({onLogin}) => {
     const [credentials, setCredentials] = useState({
         email: "",
         password: ""
     });
 
-    const handleChange = event => {
-        const value = event.currentTarget.value;
-        const name = event.currentTarget.name;
+    const handleChange = ({currentTarget}) => {
+        const {value, name} = currentTarget;
 
         setCredentials({ ...credentials, [name]: value });
     }
@@ -21,18 +21,14 @@ const LoginPage = (props) => {
         event.preventDefault();
 
         try {
-            const token = await axios
-                .post("http://localhost:8000/authentication_token", credentials)
-                .then(response => response.data.token);
-
-            window.localStorage.setItem("authToken", token);
-            axios.defaults.headers["authorization"] = "Bearer " + token;
+            await authentication.authenticate(credentials);
+            onLogin(true);
             history.push("/");
 
         } catch (error) {
             console.log(error.response);
         }
-        return <Redirect to="/" />;
+        return <Redirect to="/" refresh="true" />;
     }
 
     return (

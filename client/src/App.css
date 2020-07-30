@@ -55,10 +55,10 @@ label {
 }
 
 .button {
-    background-color: #ededed;
+    background-color: #282c34;
     border-radius: 6px;
     border: 1px solid #dcdcdc;
-    color: #777777;
+    color: white;
     font-size: 15px;
     padding: 6px 24px;
     margin-top: 20px;

@@ -11,7 +11,7 @@ const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries?format=json`;
 
 const getAvatar = name => `${apiEndpoint}${name}.svg?${apiOptions}`;
 
-const HomePage = (props) => {
+const HomePage = ({ isAuthenticated }) => {
 
     const token = localStorage.getItem('authToken');
     const [registeredBeneficiaries, setRegisteredBeneficiaries] = useState(
@@ -22,11 +22,11 @@ const HomePage = (props) => {
     );
 
     useEffect(() => {
-        axios.get(beneficiariesEndpoint, { headers: {"Authorization" : `Bearer ${token}`}})
-             .then(response => response.data['hydra:member'])
-             .then(data => setRegisteredBeneficiaries(data));
+        axios.get(beneficiariesEndpoint, { headers: { "Authorization": `Bearer ${token}` } })
+            .then(response => response.data['hydra:member'])
+            .then(data => setRegisteredBeneficiaries(data));
     }, [])
-   
+
     const beneficiaryNames = [...Array(12).keys()].map(number => ({
         name: names[Math.floor(Math.random() * names.length)]
     }));
@@ -40,34 +40,47 @@ const HomePage = (props) => {
 
     return (
         <div className="App">
-
             <header className="App-header">
-                <Navbar />
-                <h1>Bienvenue dans le gestionnaire de bénéficaires Reconnect</h1>
-                <hr />
-                <div>
-                    <input type="text" onChange={handleResult} value={result} placeholder="Rechercher"/>
-                </div>
-                <h3>Personnes stockées en base</h3>
-                <div className="Beneficiaries-list">
-                    {filteredBeneficiaries.map((beneficiary) => (
-                        <div className="Beneficiary-card" key={beneficiary.id}>
-                            <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
-                            <span>{beneficiary.name}</span>
+                {(!isAuthenticated && (<>
+                    <h1>Bienvenue dans le gestionnaire de bénéficaires Reconnect</h1>
+                    <hr />
+                    <h3>Personnes non stockées</h3>
+                    <div className="Beneficiaries-list">
+                        {beneficiaryNames.map((beneficiary, index) => (
+                            <div className="Beneficiary-card" key={beneficiary.name + index}>
+                                <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
+                                <span>{beneficiary.name}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <hr />
+                </>)) || (<>
+                        <h1>Bienvenue </h1>
+                        <div>
+                            <input type="text" onChange={handleResult} value={result} placeholder="Rechercher" />
                         </div>
-                    ))}  
-                </div>
-                <hr />
-                <NavLink to="/beneficiaire" className="button">Enregistrer un nouveau bénéficiaire</NavLink>
-                <h3>Personnes non stockées</h3>
-                <div className="Beneficiaries-list">
-                    {beneficiaryNames.map((beneficiary, index) => (
-                        <div className="Beneficiary-card" key={beneficiary.name + index}>
-                            <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
-                            <span>{beneficiary.name}</span>
+                        <h3>Personnes stockées en base</h3>
+                        <div className="Beneficiaries-list">
+                            {filteredBeneficiaries.map((beneficiary) => (
+                                <div className="Beneficiary-card" key={beneficiary.id}>
+                                    <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
+                                    <span>{beneficiary.name}</span>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                        <hr />
+                        <h3>Personnes non stockées</h3>
+                        <div className="Beneficiaries-list">
+                            {beneficiaryNames.map((beneficiary, index) => (
+                                <div className="Beneficiary-card" key={beneficiary.name + index}>
+                                    <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
+                                    <span>{beneficiary.name}</span>
+                                </div>
+                            ))}
+                        </div>
+                </>)}
+
+
             </header>
         </div>
     );
