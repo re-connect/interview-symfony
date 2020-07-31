@@ -13,8 +13,6 @@ function App() {
     const token = localStorage.getItem('authToken');
     const [isAuthenticated, setIsAuthenticated] = useState(authentication.isAuthenticated());
 
-    console.log(isAuthenticated);
-
     return (
         <Fragment>
             <HashRouter>

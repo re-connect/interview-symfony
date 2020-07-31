@@ -1,4 +1,5 @@
 import axios from 'axios'
+import jwtDecode from 'jwt-decode';
 
 function logout() {
     window.localStorage.removeItem("authToken");
@@ -19,14 +20,24 @@ function authenticate(credentials) {
 
 function isAuthenticated() {
     const token = localStorage.getItem('authToken');
-    if(token != null){
+    if (token != null) {
         return true;
     }
     return false;
 }
 
+function decode() {
+    const token = localStorage.getItem('authToken');
+
+    if (token) {
+        const jwtData = jwtDecode(token);
+        console.log(jwtData);
+    } 
+}
+
 export default {
     authenticate,
     logout,
-    isAuthenticated
+    isAuthenticated,
+    decode
 };
