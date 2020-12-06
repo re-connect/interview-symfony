@@ -19,8 +19,8 @@
 ### Frontend
 
 - `cd client`
-- `yarn`
-- `yarn start`
+- `yarn`or `npm install`
+- `yarn start` or `npm start`
 
 ### Backend
 
