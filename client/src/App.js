@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import request from 'superagent';
+import axios from 'axios';
 import names from "./names";
 
 const apiEndpoint = "https://avatars.dicebear.com/v2/avataaars/";
@@ -16,11 +16,12 @@ function App() {
         []
     );
     const fetchBeneficiaries = async () => {
-        const loginResponse = await request('POST', loginEndpoint)
-            .send({email: 'tester@gmail.com', password: 'I@mTheT€ster'});
-        const response = await request('GET', beneficiariesEndpoint)
-            .auth(loginResponse.body.token, {type: 'bearer'});
-        setRegisteredBeneficiaries(response.body['hydra:member']);
+        const loginResponse = await axios.post(loginEndpoint, {
+            email: 'tester@gmail.com', password: 'I@mTheT€ster'
+        });
+        axios.defaults.headers.common['Authorization'] = `Bearer ${loginResponse.data.token}`;
+        const response = await axios.get(beneficiariesEndpoint)
+        setRegisteredBeneficiaries(response.data['hydra:member']);
     };
 
     React.useEffect(() => {
