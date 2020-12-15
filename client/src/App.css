@@ -26,6 +26,11 @@
   color: white;
 }
 
+nav {
+  background: red;
+  width: 100%;
+}
+
 .Beneficiaries-list {
   display: flex;
   flex-wrap: wrap;

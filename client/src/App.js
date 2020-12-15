@@ -1,62 +1,65 @@
-import React from "react";
-import "./App.css";
-import request from 'superagent';
-import names from "./names";
-
-const apiEndpoint = "https://avatars.dicebear.com/v2/avataaars/";
-const apiOptions = "options[mood][]=happy";
-const backendUrl = "https://localhost:8000";
-const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries?format=json`;
-const loginEndpoint = `${backendUrl}/authentication_token`;
-
-const getAvatar = name => `${apiEndpoint}${name}.svg?${apiOptions}`;
+import React, { useState } from 'react';
+import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+import NavBar from './Components/NavBar';
+import Login from './Components/Login';
+import Home from './Components/Home';
+import Add from './Components/Add';
 
 function App() {
-    const [registeredBeneficiaries, setRegisteredBeneficiaries] = React.useState(
-        []
-    );
-    const fetchBeneficiaries = async () => {
-        const loginResponse = await request('POST', loginEndpoint)
-            .send({email: 'tester@gmail.com', password: 'I@mTheT€ster'});
-        const response = await request('GET', beneficiariesEndpoint)
-            .auth(loginResponse.body.token, {type: 'bearer'});
-        setRegisteredBeneficiaries(response.body['hydra:member']);
-    };
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
-    React.useEffect(() => {
-        fetchBeneficiaries();
-    }, []);
-    const beneficiaryNames = [...Array(12).keys()].map(number => ({
-        name: names[Math.floor(Math.random() * names.length)]
-    }));
+  return (
+    <Router>
+      <div className='App'>
+        <NavBar email={email} password={password} loggedIn={loggedIn} />
+        <Switch>
+          <Route
+            path='/login'
+            render={() => (
+              <Login
+                loggedIn={loggedIn}
+                setLoggedIn={setLoggedIn}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+              />
+            )}
+          />
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                <h1>Bienvenue dans le gestionnaire de bénéficaires Reconnect</h1>
-                <hr/>
-                <h3>Personnes stockées en base</h3>
-                <div className="Beneficiaries-list">
-                    {registeredBeneficiaries.map((beneficiary) => (
-                        <div className="Beneficiary-card" key={beneficiary.id}>
-                            <img src={getAvatar(beneficiary.name)} alt={beneficiary.name}/>
-                            <span>{beneficiary.name}</span>
-                        </div>
-                    ))}
-                </div>
-                <hr/>
-                <h3>Personnes non stockées</h3>
-                <div className="Beneficiaries-list">
-                    {beneficiaryNames.map((beneficiary, index) => (
-                        <div className="Beneficiary-card" key={beneficiary.name + index}>
-                            <img src={getAvatar(beneficiary.name)} alt={beneficiary.name}/>
-                            <span>{beneficiary.name}</span>
-                        </div>
-                    ))}
-                </div>
-            </header>
-        </div>
-    );
+          <Route
+            path='/add'
+            render={(props) =>
+              loggedIn ? (
+                <Add email={email} loggedIn={loggedIn} />
+              ) : (
+                <Redirect to='/login' />
+              )
+            }
+          />
+
+          <Route
+            path='/'
+            render={(props) =>
+              loggedIn ? (
+                <Home email={email} password={password} loggedIn={loggedIn} />
+              ) : (
+                <Redirect to='/login' />
+              )
+            }
+          />
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
