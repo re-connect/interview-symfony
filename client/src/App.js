@@ -10,6 +10,7 @@ import NavBar from './Components/NavBar';
 import Login from './Components/Login';
 import Home from './Components/Home';
 import Add from './Components/Add';
+import Single from './Components/Single';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -19,7 +20,7 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        <NavBar email={email} password={password} loggedIn={loggedIn} />
+        <NavBar email={email} loggedIn={loggedIn} />
         <Switch>
           <Route
             path='/login'
@@ -37,7 +38,7 @@ function App() {
 
           <Route
             path='/add'
-            render={(props) =>
+            render={() =>
               loggedIn ? (
                 <Add email={email} loggedIn={loggedIn} />
               ) : (
@@ -47,8 +48,24 @@ function App() {
           />
 
           <Route
-            path='/'
+            path='/single/:name'
             render={(props) =>
+              loggedIn ? (
+                <Single
+                  {...props}
+                  email={email}
+                  password={password}
+                  loggedIn={loggedIn}
+                />
+              ) : (
+                <Redirect to='/login' />
+              )
+            }
+          />
+
+          <Route
+            path='/'
+            render={() =>
               loggedIn ? (
                 <Home email={email} password={password} loggedIn={loggedIn} />
               ) : (

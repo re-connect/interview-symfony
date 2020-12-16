@@ -26,9 +26,12 @@
   color: white;
 }
 
-nav {
-  background: red;
-  width: 100%;
+.custom-link {
+  text-decoration: none !important;
+}
+
+.custom-dropdown-item:hover {
+  background-color: #f8f9fa;
 }
 
 .Beneficiaries-list {
