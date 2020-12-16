@@ -3,7 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 
-const Login = ({ loggedIn, setLoggedIn, email, setEmail, password, setPassword }) => {
+const Login = ({ loggedIn, setLoggedIn, email, setEmail, password, setPassword, backendUrl }) => {
     const history = useHistory();
 
     const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ const Login = ({ loggedIn, setLoggedIn, email, setEmail, password, setPassword }
     }
 
     const submitPostRequest = () => {
-        axios.post("http://127.0.0.1:8000/authentication_token", { email, password })
+        axios.post(`${backendUrl}/authentication_token`, { email, password })
             .then(res => {
                 sessionStorage.setItem("token", res.data.token);
                 setLoggedIn(!loggedIn);

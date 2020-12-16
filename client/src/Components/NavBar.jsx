@@ -3,9 +3,8 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 
 
-const NavBar = ({ email, loggedIn }) => {
+const NavBar = ({ email, loggedIn, backendUrl }) => {
 
-  const backendUrl = 'http://127.0.0.1:8000';
   const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries`;
   const [searchTerm, setSearchTerm] = useState("");
   const [benefs, setBenefs] = useState("");

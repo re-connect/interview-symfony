@@ -3,7 +3,7 @@ import axios from "axios"
 import { useHistory } from "react-router-dom";
 
 
-const Add = ({ email }) => {
+const Add = ({ email, backendUrl }) => {
     const history = useHistory();
     const [name, setName] = useState("");
 
@@ -17,7 +17,7 @@ const Add = ({ email }) => {
                 'Authorization': `Bearer ${sessionStorage.getItem("token")}`
             }
         }
-        axios.post("http://127.0.0.1:8000/api/beneficiaries", { name, createdBy: email }, config)
+        axios.post(`${backendUrl}/api/beneficiaries`, { name, createdBy: email }, config)
             .then(res => {
                 console.log(res)
                 history.push("/");

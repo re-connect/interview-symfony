@@ -13,6 +13,7 @@ import Add from './Components/Add';
 import Single from './Components/Single';
 
 function App() {
+  const backendUrl = 'http://127.0.0.1:8000';
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -20,7 +21,7 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        <NavBar email={email} loggedIn={loggedIn} />
+        <NavBar email={email} loggedIn={loggedIn} backendUrl={backendUrl} />
         <Switch>
           <Route
             path='/login'
@@ -32,6 +33,7 @@ function App() {
                 setEmail={setEmail}
                 password={password}
                 setPassword={setPassword}
+                backendUrl={backendUrl}
               />
             )}
           />
@@ -40,7 +42,7 @@ function App() {
             path='/add'
             render={() =>
               loggedIn ? (
-                <Add email={email} loggedIn={loggedIn} />
+                <Add email={email} backendUrl={backendUrl} />
               ) : (
                 <Redirect to='/login' />
               )
@@ -67,7 +69,7 @@ function App() {
             path='/'
             render={() =>
               loggedIn ? (
-                <Home email={email} password={password} loggedIn={loggedIn} />
+                <Home email={email} password={password} loggedIn={loggedIn} backendUrl={backendUrl} />
               ) : (
                 <Redirect to='/login' />
               )

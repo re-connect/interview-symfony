@@ -3,15 +3,15 @@ import axios from "axios";
 import names from '../names';
 
 
-const backendUrl = 'http://127.0.0.1:8000';
-const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries?format=json`;
-const loginEndpoint = `${backendUrl}/authentication_token`;
 
-const apiEndpoint = 'https://avatars.dicebear.com/v2/avataaars/';
-const apiOptions = 'options[mood][]=happy';
-const getAvatar = (name) => `${apiEndpoint}${name}.svg?${apiOptions}`;
+const Home = ({ email, password, backendUrl }) => {
 
-const Home = ({ email, password }) => {
+  const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries?format=json`;
+  const loginEndpoint = `${backendUrl}/authentication_token`;
+
+  const apiEndpoint = 'https://avatars.dicebear.com/v2/avataaars/';
+  const apiOptions = 'options[mood][]=happy';
+  const getAvatar = (name) => `${apiEndpoint}${name}.svg?${apiOptions}`;
 
   const [registeredBeneficiaries, setRegisteredBeneficiaries] = useState([]);
   const [beneficiaries, setBeneficiaries] = useState([...Array(12).keys()].map((number) => ({
