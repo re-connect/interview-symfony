@@ -16,18 +16,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @Route("/user", name="user.")
  */
 
+
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     */
-    public function index()
-    {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
-    }
-
+    // Route pour créer un user via Postman par exemple
     /**
      * @Route("/create", name="create")
      * @return $response
@@ -59,6 +51,8 @@ class UserController extends AbstractController
             return $response;
         }
     }
+
+    // Route pour delete un user via Postman par exemple
 
     /**
      * @Route("/delete/{id}", name="delete")

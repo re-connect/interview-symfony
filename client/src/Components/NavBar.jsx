@@ -1,52 +1,35 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { Link } from "react-router-dom"
-import axios from "axios"
 
 
-const NavBar = ({ email, loggedIn, backendUrl }) => {
+const NavBar = ({ email, loggedIn, registeredBeneficiaries }) => {
 
-  const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries`;
   const [searchTerm, setSearchTerm] = useState("");
-  const [benefs, setBenefs] = useState("");
   const [matchList, setMatchList] = useState(null);
   const inputRef = useRef()
 
-  // Je récupère la liste des benefs
-  const getAllBenef = async () => {
-    const config = {
-      headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem("token")}`
-      }
-    }
-    const getAllBenefs = await axios.get(beneficiariesEndpoint, config)
-
-    // J'assigne à la constante la liste des benefs
-    setBenefs(getAllBenefs.data['hydra:member'])
-  }
 
   const findMatches = (needle, hayStack) => {
     // Je filtre la liste des benefs avec le terme de recherche
     let findMatches = hayStack.filter((h) => {
       return needle === h.name
     })
-    setMatchList(findMatches)
 
+    setMatchList(findMatches)
   }
 
   const handleInputChange = (e) => {
+    // A chaque évènement onChange, je set le state searchTerm avec l'event target value, puis j'appelle ma fonction findMatches
     setSearchTerm(e.target.value);
-    findMatches(e.target.value, benefs)
+    findMatches(e.target.value, registeredBeneficiaries)
   }
 
   const handleClick = () => {
+    // Au click sur une des div, je reset les values
     setSearchTerm("");
     setMatchList(null);
     inputRef.current.value = "";
   }
-
-  useEffect(() => {
-    getAllBenef();
-  }, [])
 
 
   return (
@@ -80,18 +63,16 @@ const NavBar = ({ email, loggedIn, backendUrl }) => {
           </ul>
           {loggedIn ? (
             <form className="d-flex">
-              <div style={{ width: "200px" }}>
-                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={handleInputChange} ref={inputRef} />
-                {matchList ? (<div style={{ width: "200px", position: "absolute" }} aria-labelledby="navbarDropdown">
+              <div style={{ width: "200px", margin: "0 auto" }}>
+                <input className="form-control me-2" type="search" placeholder="Tapez un nom" aria-label="Search" onChange={handleInputChange} ref={inputRef} />
+                {matchList && (<div style={{ width: "200px", position: "absolute" }} aria-labelledby="navbarDropdown">
                   {matchList.map((match, index) => {
                     return (<Link key={index} className="custom-link" to={`/single/${match.name}`} onClick={handleClick}>
                       <div className="form-control me-2 custom-dropdown-item">{match.name}</div>
                     </Link>)
-
                   })}
-                </div>) : null}
+                </div>)}
               </div>
-              {/* <button className="btn btn-outline-info" type="submit">Rechercher</button> */}
             </form>) : null}
         </div>
 

@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import axios from "axios";
 import names from '../names';
 
 
+const backendUrl = 'http://127.0.0.1:8000';
+const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries?format=json`;
+const loginEndpoint = `${backendUrl}/authentication_token`;
 
-const Home = ({ email, password, backendUrl }) => {
+const apiEndpoint = 'https://avatars.dicebear.com/v2/avataaars/';
+const apiOptions = 'options[mood][]=happy';
+const getAvatar = (name) => `${apiEndpoint}${name}.svg?${apiOptions}`;
 
-  const beneficiariesEndpoint = `${backendUrl}/api/beneficiaries?format=json`;
-  const loginEndpoint = `${backendUrl}/authentication_token`;
+const Home = ({ email, password, setRegisteredBeneficiaries, registeredBeneficiaries }) => {
 
-  const apiEndpoint = 'https://avatars.dicebear.com/v2/avataaars/';
-  const apiOptions = 'options[mood][]=happy';
-  const getAvatar = (name) => `${apiEndpoint}${name}.svg?${apiOptions}`;
-
-  const [registeredBeneficiaries, setRegisteredBeneficiaries] = useState([]);
-  const [beneficiaries, setBeneficiaries] = useState([...Array(12).keys()].map((number) => ({
+  const beneficiaries = [...Array(12).keys()].map((number) => ({
     name: names[Math.floor(Math.random() * names.length)],
-  })));
+  }));
 
   const fetchBeneficiaries = async () => {
     const loginResponse = await axios.post(loginEndpoint, {
@@ -39,10 +38,11 @@ const Home = ({ email, password, backendUrl }) => {
         'Authorization': `Bearer ${sessionStorage.getItem("token")}`
       }
     }
-    const deleteRequest = await axios.delete(`${backendUrl}/api/beneficiaries/${id}`, config);
+    await axios.delete(`${backendUrl}/api/beneficiaries/${id}`, config);
   }
 
   const handleDelete = (id) => {
+    // Au clic sur le bouton delete, je fais ma delete request, puis je re-fetch les beneficiaries pour afficher la liste à jour.
     deleteBeneficiaries(id);
     fetchBeneficiaries();
   }

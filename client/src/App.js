@@ -13,15 +13,15 @@ import Add from './Components/Add';
 import Single from './Components/Single';
 
 function App() {
-  const backendUrl = 'http://127.0.0.1:8000';
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [registeredBeneficiaries, setRegisteredBeneficiaries] = useState([]);
 
   return (
     <Router>
       <div className='App'>
-        <NavBar email={email} loggedIn={loggedIn} backendUrl={backendUrl} />
+        <NavBar email={email} loggedIn={loggedIn} registeredBeneficiaries={registeredBeneficiaries} />
         <Switch>
           <Route
             path='/login'
@@ -33,7 +33,6 @@ function App() {
                 setEmail={setEmail}
                 password={password}
                 setPassword={setPassword}
-                backendUrl={backendUrl}
               />
             )}
           />
@@ -42,7 +41,7 @@ function App() {
             path='/add'
             render={() =>
               loggedIn ? (
-                <Add email={email} backendUrl={backendUrl} />
+                <Add email={email} loggedIn={loggedIn} />
               ) : (
                 <Redirect to='/login' />
               )
@@ -69,7 +68,7 @@ function App() {
             path='/'
             render={() =>
               loggedIn ? (
-                <Home email={email} password={password} loggedIn={loggedIn} backendUrl={backendUrl} />
+                <Home email={email} password={password} loggedIn={loggedIn} registeredBeneficiaries={registeredBeneficiaries} setRegisteredBeneficiaries={setRegisteredBeneficiaries} />
               ) : (
                 <Redirect to='/login' />
               )

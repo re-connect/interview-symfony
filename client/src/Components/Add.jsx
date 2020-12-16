@@ -3,7 +3,7 @@ import axios from "axios"
 import { useHistory } from "react-router-dom";
 
 
-const Add = ({ email, backendUrl }) => {
+const Add = ({ email }) => {
     const history = useHistory();
     const [name, setName] = useState("");
 
@@ -17,11 +17,9 @@ const Add = ({ email, backendUrl }) => {
                 'Authorization': `Bearer ${sessionStorage.getItem("token")}`
             }
         }
-        axios.post(`${backendUrl}/api/beneficiaries`, { name, createdBy: email }, config)
+        axios.post("http://127.0.0.1:8000/api/beneficiaries", { name, createdBy: email }, config)
             .then(res => {
-                console.log(res)
                 history.push("/");
-
             })
             .catch(err => { console.log(err.message) })
     }
@@ -32,9 +30,9 @@ const Add = ({ email, backendUrl }) => {
     }
 
     return (
-        <div className="App-header">
+        <div className="background-dark">
             <h1>Ajouter un Bénéficiaire</h1>
-            <form classname="container" onSubmit={handleFormSubmit}>
+            <form className="container-fluid col-xs-9 col-sm-6" onSubmit={handleFormSubmit}>
                 <div className="mb-3">
                     <label htmlFor="nameInput" className="form-label">Nom du bénéficiaire</label>
                     <input type="text" name="nameInput" className="form-control" id="nameInput" onChange={handleInputChange} />

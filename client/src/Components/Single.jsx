@@ -2,7 +2,7 @@ import React from 'react'
 
 const Single = ({ match }) => {
     return (
-        <div className="App-header">
+        <div className=" background-dark container-fluid ">
             Vous consultez la page du Bénéficiaire {match.params.name}
         </div>
     )

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 
-const Login = ({ loggedIn, setLoggedIn, email, setEmail, password, setPassword, backendUrl }) => {
+const Login = ({ loggedIn, setLoggedIn, email, setEmail, password, setPassword }) => {
     const history = useHistory();
 
     const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ const Login = ({ loggedIn, setLoggedIn, email, setEmail, password, setPassword, 
     }
 
     const submitPostRequest = () => {
-        axios.post(`${backendUrl}/authentication_token`, { email, password })
+        axios.post("http://127.0.0.1:8000/authentication_token", { email, password })
             .then(res => {
                 sessionStorage.setItem("token", res.data.token);
                 setLoggedIn(!loggedIn);
@@ -28,9 +28,9 @@ const Login = ({ loggedIn, setLoggedIn, email, setEmail, password, setPassword, 
     }
 
     return (
-        <div className="App-header">
+        <div className="background-dark">
             <h1>Login Page</h1>
-            <form classname="container" onSubmit={handleFormSubmit}>
+            <form className="container-fluid col-xs-9 col-sm-6" onSubmit={handleFormSubmit}>
                 <div className="mb-3">
                     <label htmlFor="emailInput" className="form-label">Adresse Email</label>
                     <input type="email" name="email" className="form-control" id="emailInput" aria-describedby="emailHelp" onChange={handleInputChange("email")} />
