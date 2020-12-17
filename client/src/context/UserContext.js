@@ -1,6 +1,8 @@
 import { createContext } from "react";
 
-export default createContext({
+export const UserContext = createContext({
   currentUser: null,
   setCurrentUser: () => {},
+  userToken: null,
+  setUserToken: () => {},
 });

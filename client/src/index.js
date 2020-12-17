@@ -2,19 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import Login from "./components/Login";
 import * as serviceWorker from "./serviceWorker";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import UserContext from "./context/UserContext";
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <Router>
-    <Switch>
-      <UserContext.Provider value="Hello again Foo">
-        <Route exact path="/" component={App} />
-        <Route exact path="/login" component={Login} />
-      </UserContext.Provider>
-    </Switch>
+    <App />
   </Router>,
   document.getElementById("root")
 );
