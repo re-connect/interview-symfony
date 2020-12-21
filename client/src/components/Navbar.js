@@ -8,12 +8,14 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <Link to={"/"}>
-        <p>Home</p>
+        <p>Accueil</p>
       </Link>
       {currentUser ? (
         <Fragment>
           <div className="flex-col">
-            <p style={{ fontStyle: "italic" }}>Connected as: {currentUser}</p>
+            <p style={{ fontStyle: "italic" }}>
+              Connecté en tant que: {currentUser}
+            </p>
           </div>
           <button
             className="btn"
@@ -22,13 +24,13 @@ export default function Navbar() {
               setUserToken(null);
             }}
           >
-            Log out
+            Se déconnecter
           </button>
         </Fragment>
       ) : (
         <Fragment>
           <Link to={"/login"}>
-            <button className="btn login-btn">Log in</button>
+            <button className="btn login-btn">Connexion</button>
           </Link>
         </Fragment>
       )}

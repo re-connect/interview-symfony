@@ -3,6 +3,8 @@ import "../App.css";
 import axios from "axios";
 import names from "../names";
 import Navbar from "./Navbar";
+import Searchbar from "./Searchbar";
+import BeneficiariesList from "./BeneficiariesList";
 
 const apiEndpoint = "https://avatars.dicebear.com/v2/avataaars/";
 const apiOptions = "options[mood][]=happy";
@@ -14,6 +16,7 @@ const getAvatar = (name) => `${apiEndpoint}${name}.svg?${apiOptions}`;
 
 function Home() {
   const [registeredBeneficiaries, setRegisteredBeneficiaries] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchBeneficiaries = async () => {
     const loginResponse = await axios.post(loginEndpoint, {
@@ -35,31 +38,38 @@ function Home() {
     name: names[Math.floor(Math.random() * names.length)],
   }));
 
+  // HANDLING SEARCH BAR -----
+  const updateSearchQuery = async (e) => {
+    let newSearch = e.target.value;
+    setSearchQuery((prevSearch) => newSearch);
+  };
+  const filterSearch = (persons) => {
+    return persons.filter((p) => p.name.toLowerCase().includes(searchQuery));
+  };
+  const filterHandler = (beneficiaries) => {
+    if (searchQuery === "") return beneficiaries;
+    return filterSearch(beneficiaries);
+  };
+  // -------------------------
+
   return (
     <div className="App">
       <Navbar />
       <header className="App-header">
         <h1>Bienvenue dans le gestionnaire de bénéficaires Reconnect</h1>
+        <Searchbar updateSearch={updateSearchQuery} />
         <hr />
         <h3>Personnes stockées en base</h3>
-        <div className="Beneficiaries-list">
-          {registeredBeneficiaries.map((beneficiary) => (
-            <div className="Beneficiary-card" key={beneficiary.id}>
-              <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
-              <span>{beneficiary.name}</span>
-            </div>
-          ))}
-        </div>
+        <BeneficiariesList
+          beneficiaries={filterHandler(registeredBeneficiaries)}
+          getAvatar={getAvatar}
+        />
         <hr />
         <h3>Personnes non stockées</h3>
-        <div className="Beneficiaries-list">
-          {beneficiaryNames.map((beneficiary, index) => (
-            <div className="Beneficiary-card" key={beneficiary.name + index}>
-              <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
-              <span>{beneficiary.name}</span>
-            </div>
-          ))}
-        </div>
+        <BeneficiariesList
+          beneficiaries={filterHandler(beneficiaryNames)}
+          getAvatar={getAvatar}
+        />
       </header>
     </div>
   );

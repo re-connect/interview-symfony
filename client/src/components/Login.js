@@ -12,7 +12,7 @@ export default function Login() {
     email: "tester@gmail.com",
     password: "I@mTheT€ster",
   });
-  const { setCurrentUser, setUserToken } = useContext(UserContext);
+  const { currentUser, setCurrentUser, setUserToken } = useContext(UserContext);
 
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
@@ -30,6 +30,7 @@ export default function Login() {
     if (loginResponse && loginResponse.status === 200) {
       setCurrentUser(userInfos.email);
       setUserToken(loginResponse.data.token);
+      console.log(loginResponse.data.token);
     }
   };
 
@@ -38,27 +39,31 @@ export default function Login() {
       <Navbar />
       <div className="login-page">
         <h1>Bienvenue sur la page de connexion</h1>
-        <form className="form login-form" onChange={handleChange}>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input type="email" name="email" defaultValue={userInfos.email} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              defaultValue={userInfos.password}
-            />
-          </div>
-          <button
-            type="submit"
-            className="btn submit-btn"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
-        </form>
+        {currentUser ? (
+          <h3>Vous êtes connecté :)</h3>
+        ) : (
+          <form className="form login-form" onChange={handleChange}>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input type="email" name="email" defaultValue={userInfos.email} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                defaultValue={userInfos.password}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn submit-btn"
+              onClick={handleSubmit}
+            >
+              Se connecter
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
