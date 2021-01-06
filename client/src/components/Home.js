@@ -63,12 +63,14 @@ function Home() {
         <BeneficiariesList
           beneficiaries={filterHandler(registeredBeneficiaries)}
           getAvatar={getAvatar}
+          isRegistered={true}
         />
         <hr />
         <h3>Personnes non stockées</h3>
         <BeneficiariesList
           beneficiaries={filterHandler(beneficiaryNames)}
           getAvatar={getAvatar}
+          isRegistered={false}
         />
       </header>
     </div>

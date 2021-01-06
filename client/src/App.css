@@ -29,6 +29,10 @@
   width: 200px;
 }
 
+.beneficiary-name {
+  margin-right: 5px;
+}
+
 .App-link {
   color: #61dafb;
 }
