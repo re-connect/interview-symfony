@@ -1,41 +1,26 @@
 import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle, faMinusCircle } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { UserContext } from "../context/UserContext";
-
-const apiUrl = "https://localhost:8000/beneficiary";
 
 export default function BeneficiariesList({
   beneficiaries,
   getAvatar,
   isRegistered,
+  addBeneficiary,
+  removeBeneficiary,
 }) {
-  const { userToken, currentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
 
-  const addBeneficiary = (name) => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
-    axios
-      .post(`${apiUrl}/add`, { name })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
-
-  const removeBeneficiary = (id) => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
-    axios
-      .get(`${apiUrl}/delete/${id}`)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
-
-  const handleClick = (beneficiary, index) => {
-    console.table(beneficiary.name, isRegistered, currentUser, userToken);
+  const handleClick = (beneficiary) => {
+    console.log(beneficiary.name, beneficiary.id, isRegistered);
     if (!currentUser) {
-      console.log("You need to be connected to interact with database!");
+      console.error("You need to be connected to interact with database!");
       return;
     }
-    isRegistered ? removeBeneficiary(index) : addBeneficiary(beneficiary.name);
+    isRegistered
+      ? removeBeneficiary(beneficiary.id)
+      : addBeneficiary(beneficiary.name);
   };
 
   if (beneficiaries.length === 0) {
@@ -44,14 +29,14 @@ export default function BeneficiariesList({
 
   return (
     <div className="Beneficiaries-list">
-      {beneficiaries.map((beneficiary, index) => (
-        <div className="Beneficiary-card" key={index}>
+      {beneficiaries.map((beneficiary, id) => (
+        <div className="Beneficiary-card" key={id}>
           <img src={getAvatar(beneficiary.name)} alt={beneficiary.name} />
           <span className="beneficiary-name">{beneficiary.name}</span>
           {isRegistered ? (
             <FontAwesomeIcon
               icon={faMinusCircle}
-              onClick={handleClick.bind(this, beneficiary, index)}
+              onClick={handleClick.bind(this, beneficiary)}
             />
           ) : (
             <FontAwesomeIcon

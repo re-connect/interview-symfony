@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../App.css";
 import axios from "axios";
 import names from "../names";
 import Navbar from "./Navbar";
 import Searchbar from "./Searchbar";
 import BeneficiariesList from "./BeneficiariesList";
+import { UserContext } from "../context/UserContext";
 
 const apiEndpoint = "https://avatars.dicebear.com/v2/avataaars/";
 const apiOptions = "options[mood][]=happy";
@@ -17,6 +18,10 @@ const getAvatar = (name) => `${apiEndpoint}${name}.svg?${apiOptions}`;
 function Home() {
   const [registeredBeneficiaries, setRegisteredBeneficiaries] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const { userToken } = useContext(UserContext);
+  const axiosConfig = {
+    headers: { Authorization: `Bearer ${userToken}` },
+  };
 
   const fetchBeneficiaries = async () => {
     const loginResponse = await axios.post(loginEndpoint, {
@@ -27,6 +32,7 @@ function Home() {
       "Authorization"
     ] = `Bearer ${loginResponse.data.token}`;
     const response = await axios.get(beneficiariesEndpoint);
+    console.log(response);
     setRegisteredBeneficiaries(response.data["hydra:member"]);
   };
 
@@ -36,6 +42,7 @@ function Home() {
 
   const beneficiaryNames = [...Array(12).keys()].map((number) => ({
     name: names[Math.floor(Math.random() * names.length)],
+    id: Math.floor(Math.random() * Date.now()),
   }));
 
   // HANDLING SEARCH BAR -----
@@ -52,10 +59,34 @@ function Home() {
   };
   // -------------------------
 
+  // HANDLING DB CALLS -----
+  const testFetchDb = async () => {
+    axios
+      .get(`${backendUrl}/beneficiary`)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  };
+
+  const addBeneficiary = async (name) => {
+    axios
+      .post(`${backendUrl}/beneficiary/add`, { name }, axiosConfig)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  const removeBeneficiary = async (id) => {
+    axios
+      .delete(`${backendUrl}/beneficiary/delete/${id}`, axiosConfig)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  // -------------------------
+
   return (
     <div className="App">
       <Navbar />
       <header className="App-header">
+        {/* <button onClick={testFetchDb}>Fetch</button> */}
         <h1>Bienvenue dans le gestionnaire de bénéficaires Reconnect</h1>
         <Searchbar updateSearch={updateSearchQuery} />
         <hr />
@@ -64,6 +95,8 @@ function Home() {
           beneficiaries={filterHandler(registeredBeneficiaries)}
           getAvatar={getAvatar}
           isRegistered={true}
+          addBeneficiary={addBeneficiary}
+          removeBeneficiary={removeBeneficiary}
         />
         <hr />
         <h3>Personnes non stockées</h3>
@@ -71,6 +104,8 @@ function Home() {
           beneficiaries={filterHandler(beneficiaryNames)}
           getAvatar={getAvatar}
           isRegistered={false}
+          addBeneficiary={addBeneficiary}
+          removeBeneficiary={removeBeneficiary}
         />
       </header>
     </div>

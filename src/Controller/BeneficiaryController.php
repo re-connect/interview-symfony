@@ -15,7 +15,8 @@ class BeneficiaryController extends AbstractController
      */
     public function index(): Response
     {
-        return new Response("You're on beneficiary page && authenticated");
+        $beneficiaries = $this->getDoctrine()->getRepository(Beneficiary::class)->findAll();
+        return $this->json($beneficiaries);
     }
 
     /**
@@ -35,7 +36,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/beneficiary/delete/${id}", name="add_beneficiary")
+     * @Route("/beneficiary/delete/${id}", name="delete_beneficiary")
      */
     public function delete(Beneficiary $beneficiary): Response
     {
