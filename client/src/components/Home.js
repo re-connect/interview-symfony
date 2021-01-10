@@ -32,7 +32,6 @@ function Home() {
       "Authorization"
     ] = `Bearer ${loginResponse.data.token}`;
     const response = await axios.get(beneficiariesEndpoint);
-    console.log(response);
     setRegisteredBeneficiaries(response.data["hydra:member"]);
   };
 
@@ -60,25 +59,20 @@ function Home() {
   // -------------------------
 
   // HANDLING DB CALLS -----
-  const testFetchDb = async () => {
-    axios
-      .get(`${backendUrl}/beneficiary`)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-  };
-
   const addBeneficiary = async (name) => {
     axios
-      .post(`${backendUrl}/beneficiary/add`, { name }, axiosConfig)
+      .post(`${backendUrl}/api/beneficiaries`, { name }, axiosConfig)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
+    fetchBeneficiaries();
   };
 
   const removeBeneficiary = async (id) => {
     axios
-      .delete(`${backendUrl}/beneficiary/delete/${id}`, axiosConfig)
+      .delete(`${backendUrl}/api/beneficiaries/${id}`, axiosConfig)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
+    fetchBeneficiaries();
   };
   // -------------------------
 
@@ -86,7 +80,6 @@ function Home() {
     <div className="App">
       <Navbar />
       <header className="App-header">
-        {/* <button onClick={testFetchDb}>Fetch</button> */}
         <h1>Bienvenue dans le gestionnaire de bénéficaires Reconnect</h1>
         <Searchbar updateSearch={updateSearchQuery} />
         <hr />
