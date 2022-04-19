@@ -6,22 +6,16 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BeneficiaryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ApiResource()
- * @ORM\Entity(repositoryClass=BeneficiaryRepository::class)
-, */
+#[ApiResource]
+#[ORM\Entity(repositoryClass: BeneficiaryRepository::class)]
 class Beneficiary
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id()]
+    #[ORM\GeneratedValue()]
+    #[ORM\Column(type: "integer")]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private $name;
 
     public function getId(): ?int

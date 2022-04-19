@@ -7,6 +7,9 @@
   - Besoin du cli Symfony : [https://symfony.com/download](https://symfony.com/download)
   - Besoin d'un package-manager `npm` ou `yarn`
 - Application backend Symfony
+  - Besoin de PHP (>8.1)
+  - Le Cli Symfony peut aider
+  - composer
   - [Api] Symfony Api platform
   - [Authentification] Symfony
   - [Base de données] SQlite
@@ -24,14 +27,13 @@
 
 ### Backend
 
-- Installer les dépendances `composer install`
-- Démarrer le serveur `symfony serve`
+- `composer install`
+- `symfony serve`
 - Le serveur a démarré à [http://localhost:8000](http://localhost:8000)
 
 ## Ce qui est déjà en place
 
 - Backend
-  - Authentification possible en jwt
   - Base de données avec des utilisateurs de des données
   - Il y a un utilisateur de test: email: tester@gmail.com passwd: I@mTheT€ster
 - Frontend
@@ -40,13 +42,14 @@
 
 ## Missions
 
-- 1. Forker le projet sur votre github
-- 2. Faire fonctionner le projet en local
-- 3. Rajouter une page d'authentification sur le frontend qui permet de se connecter et de récupérer un token jwt pour faire des requêtes au backend
-- 4. Dans une page d'accueil authentifiée, afficher les informations de l'utilisateur dans le frontend dans le header
-- 5. Ajouter une barre de recherche par nom (idéalement, une recherche dans le backend via un call AJAX, sinon, en pur frontend)
+1. Forker le projet sur votre github
+2. Faire fonctionner le projet en local
+3. Mettre en place une authentification JWT sur le backend avec un authenticator de Symfony/security
+4. Rajouter une page d'authentification sur le frontend qui permet de se connecter et de récupérer un token jwt pour faire des requêtes au backend
+5. Dans une page d'accueil authentifiée, afficher les informations de l'utilisateur dans le frontend dans le header
+6. Ajouter une barre de recherche par nom (idéalement, une recherche dans le backend via un call AJAX, sinon, en pur frontend)
   - 5.bonus Ajouter une barre de recherche front et une barre de recherche back
-- 6. Ajouter un bouton qui permet d'enregistrer une personne dans la base de données
+6. Ajouter un bouton qui permet d'enregistrer une personne dans la base de données
   - 6.bonus À la création d'une personne en bdd, persister en base l'email du créateur et la date de création
   - 6.bonus-bis Ajouter un bouton sur chaque personne qui permet de le supprimer de la base de données
 
