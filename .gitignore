@@ -8,3 +8,11 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###< PHPStorm ###
+/.idea
+###> PHPStorm ###
+
+###< SQLite ###
+db.sqlite3
+###> SQLite ###
