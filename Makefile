@@ -24,7 +24,7 @@ fix: ## fix stan
 ## start and stop server
 ##---------------------------------------------------------------------------
 start: ## start symfony server and watch dev
-	symfony serve -d
+	symfony serve -d --allow-http
 	symfony open:local
 
 stop: ## stop symfony server and watch dev
