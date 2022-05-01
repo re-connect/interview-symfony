@@ -1,0 +1,12 @@
+parameters:
+  level: 8
+  paths:
+    - src
+  excludePaths:
+    - '%rootDir%/../../../src/Kernel.php'
+  symfony:
+    container_xml_path: '%currentWorkingDirectory%/var/cache/dev/App_KernelDevDebugContainer.xml'
+  reportUnmatchedIgnoredErrors: true
+  checkMissingIterableValueType: false
+  checkGenericClassInNonGenericObjectType: false
+  tmpDir: var
