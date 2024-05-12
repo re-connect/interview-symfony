@@ -7,5 +7,13 @@ kernel:
     type: annotation
 
 login:
-    path: /api/authentication_token
+    path: /api/token/authentication
+    methods: ['POST']
+
+refresh_jwt:
+    path: /api/token/refresh
+    methods: ['POST']
+
+logout:
+    path: /api/token/invalidate
     methods: ['POST']
