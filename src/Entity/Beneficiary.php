@@ -6,12 +6,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use App\Repository\BeneficiaryRepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: BeneficiaryRepository::class)]
-
+#[HasLifecycleCallbacks]
 #[ApiFilter(SearchFilter::class, properties: ["name" => "ipartial"])] # case insensitive
 class Beneficiary
 {
@@ -26,7 +26,7 @@ class Beneficiary
     #[ORM\Column(length: 255)]
     private ?string $creator = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
@@ -63,10 +63,10 @@ class Beneficiary
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt ?? new DateTime();
-
+        $this->createdAt = new \DateTimeImmutable("now", new \DateTimeZone('Europe/Paris'));
         return $this;
     }
 }
