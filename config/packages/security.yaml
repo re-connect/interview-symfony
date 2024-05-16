@@ -48,7 +48,6 @@ security:
     - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
     - { path: ^/api/token/invalidate, roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/api/beneficiaries, roles: [ROLE_USER, ROLE_ADMIN] }
-    - { path: ^/api/beneficiaries, roles: PUBLIC_ACCESS }
     - { path: ^/api/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
