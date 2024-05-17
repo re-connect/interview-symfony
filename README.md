@@ -19,6 +19,7 @@
 git clone git@github.com:re-connect/interview-symfony.git
 cd interview-symfony
 composer install
+php bin/console lexik:jwt:generate-keypair
 symfony serve
 ```
 
