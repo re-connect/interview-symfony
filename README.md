@@ -1,4 +1,4 @@
-# Basic web skills test backend Python Django
+# Basic web skills test backend Symfony
 
 ## Prerequisites
 
