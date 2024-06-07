@@ -10,7 +10,7 @@
 
 - [Api] Symfony Api platform
 - [Authentification] Symfony
-- [Database] SQlite, with a test user : (username: tester passwd: I@mTheT€ster)
+- [Database] SQlite, with a test user : (username: tester@gmail.com passwd: I@mTheT€ster)
 - [Database] A beneficiary also exists
 
 ## Setup
