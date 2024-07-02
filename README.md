@@ -1,9 +1,9 @@
-# Basic web skills test backend Python Django
+# Basic web skills test backend Symfony
 
 ## Prerequisites
 
 - Symfony cli is good to have : [https://symfony.com/download](https://symfony.com/download)
-- PHP (>=8.1)
+- PHP (>=8.3)
 - composer >=v2
 
 ## Stack
